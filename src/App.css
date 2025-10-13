@@ -1,0 +1,13 @@
+.nav-links ul {
+  display: flex;
+  justify-content: center;  /* centers items horizontally */
+  align-items: center;      /* centers items vertically if needed */
+  list-style: none;
+  padding: 10px;
+  margin: 30px;
+  gap: 20px;                /* space between links */
+}
+
+.nav-links li {
+  margin: 0;
+}
