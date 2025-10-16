@@ -1,44 +1,33 @@
 import './UserData.css';  // Your CSS for the table
-import React, { useEffect, useState } from "react";
+import React, { } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Alert, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 
-export function UserData() {
-    const [userData, setUserData] = useState([]);
-    const url = "http://localhost:3000/users";
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await fetch(url);
-            const data = await response.json();
-            setUserData(data);
-        };
-
-        fetchData();
-    }, []);
-
+export function UserData({ userData, url, setUserData, onEditUser }) {
     const deleteUser = async (id) => {
         const response = await fetch(`${url}/${id}`, {
-          method: "DELETE"
+            method: "DELETE"
         });
-      
+
         if (response.ok) {
-          alert("Record Deleted...");
-      
-          // Update state to remove the deleted user
-          setUserData((prevUsers) => prevUsers.filter((user) => user.id !== id));
+            alert("Record Deleted...");
+            setUserData((prevUsers) => prevUsers.filter((user) => user.id !== id));
         } else {
-          alert("Failed to delete record.");
+            alert("Failed to delete record.");
         }
-      };
-      
+    };
+
+    const editUser = (user) => {
+        onEditUser(user); // Notify parent to switch to edit mode
+    };
+
     return (
         <Container fluid="md" className="mt-4">
             <Row>
                 <Col>
-                    <h1>Fetch User Data From API</h1>
                     <h1>User List</h1>
                     <table className="user-table">
                         <thead>
@@ -57,7 +46,10 @@ export function UserData() {
                                     <td>{user.middleName}</td>
                                     <td>{user.lastName}</td>
                                     <td>{user.email}</td>
-                                    <Button onClick={()=>deleteUser(user.id)}variant="danger">Delete</Button>
+                                    <td>
+                                        <Button onClick={() => deleteUser(user.id)} variant="danger" className="me-2">Delete</Button>
+                                        <Button onClick={() => editUser(user)} variant="success">Edit</Button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

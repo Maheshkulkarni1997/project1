@@ -13,10 +13,11 @@ function NavbarExample() {
           <Navbar.Collapse id="navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to="/">Home</Nav.Link>
-              <Nav.Link as={Link} to="/loginpage">Login</Nav.Link>
-              <Nav.Link as={Link} to="/users">Users</Nav.Link>
-              <Nav.Link as={Link} to="/addusers">Users</Nav.Link>
-              <Nav.Link as={Link} to="/userdata">UserData</Nav.Link>
+              {/* <Nav.Link as={Link} to="/loginpage">Login</Nav.Link> */}
+              {/* <Nav.Link as={Link} to="/users">Users</Nav.Link>
+              <Nav.Link as={Link} to="/addusers">Add User</Nav.Link>
+              <Nav.Link as={Link} to="/userdata">UserData</Nav.Link> */}
+              <Nav.Link as={Link} to="/user-link">Users</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -1,32 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Alert } from "react-bootstrap";
+import { useParams } from "react-router";
 
-export function AddUser() {
+export function EditUser() {
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    
 
-    const createUser = async () => {
+    const {id}=useParams();
+    const url = "http://localhost:3000/users/"+id;
+    useEffect(()=>{
+        getUserData();
+    },[]);
 
-        const url = "http://localhost:3000/users";
-        const response = await fetch(url, {
-            method: "Post",
+   const getUserData = async ()=>{
+  
+   let  response = await fetch(url);
+   response = await response.json();
+   
+   setFirstName(response.firstName);
+   setMiddleName(response.middleName);
+   setLastName(response.lastName);
+   setEmail(response.email)
+
+   console.log(response);
+
+   }
+   
+   const updateUser = async () => {
+
+        let response = await fetch(url, {
+            method: "Put",
             body: JSON.stringify({ firstName, middleName, lastName, email })
         });
-        const data = await response.json();
-        if (response.ok) {
-            alert("User Added Successfully!");
+        response = await response.json();
+        if (response) {
+            alert("User Updated Successfully!");
           } else {
-            alert("Failed to add user");
+            alert("Failed to update user");
           }
     }
 
     return (
         <div>
-            <h1>Add User</h1>
+            <h1>Edit User</h1>
 
             <Form.Group className="mb-3" controlId="formFirstName">
                 <Form.Control
@@ -64,8 +85,8 @@ export function AddUser() {
                 />
             </Form.Group>
 
-            <Button variant="primary" onClick={() => createUser()}>
-                Add User
+            <Button variant="primary" onClick={() => updateUser(id)}>
+                Update User
             </Button>
         </div>
     );
